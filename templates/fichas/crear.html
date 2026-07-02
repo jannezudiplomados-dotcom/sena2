@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Nueva ficha — {{ app_name }}{% endblock %}
+{% block content %}
+<h3 class="mb-3">Crear ficha</h3>
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <form method="post" action="{{ url_for('fichas.crear') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Numero de ficha *</label>
+                    <input type="text" name="numero_ficha" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Programa</label>
+                    <select name="programa_id" class="form-select">
+                        <option value="">Sin programa</option>
+                        {% for p in programas %}<option value="{{ p.id }}">{{ p.nombre_programa }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha inicio</label>
+                    <input type="date" name="fecha_inicio" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha fin</label>
+                    <input type="date" name="fecha_fin" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Estado</label>
+                    <select name="estado" class="form-select">
+                        <option value="Activa">Activa</option>
+                        <option value="Finalizada">Finalizada</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-sena"><i class="bi bi-save"></i> Guardar</button>
+                <a href="{{ url_for('fichas.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

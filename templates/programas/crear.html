@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo programa — {{ app_name }}{% endblock %}
+{% block content %}
+<h3 class="mb-3">Crear programa</h3>
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <form method="post" action="{{ url_for('programas.crear') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-3">
+                <label class="form-label">Nombre del programa *</label>
+                <input type="text" name="nombre_programa" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Descripcion</label>
+                <textarea name="descripcion" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-sena"><i class="bi bi-save"></i> Guardar</button>
+            <a href="{{ url_for('programas.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

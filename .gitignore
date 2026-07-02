@@ -1,0 +1,23 @@
+# Entorno y secretos
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Datos sensibles / generados (NO subir datos personales de aprendices)
+static/firmas/
+static/uploads/plantillas/
+static/uploads/generados/
+*.zip
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

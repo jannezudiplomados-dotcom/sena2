@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo aprendiz — {{ app_name }}{% endblock %}
+{% block content %}
+<h3 class="mb-3">Registrar aprendiz</h3>
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <form method="post" action="{{ url_for('usuarios.crear') }}" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Tipo documento</label>
+                    <select name="tipo_documento" class="form-select">
+                        <option value="CC">CC</option><option value="TI">TI</option>
+                        <option value="CE">CE</option><option value="PPT">PPT</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Identificacion *</label>
+                    <input type="text" name="identificacion" class="form-control" required>
+                </div>
+                <div class="col-md-5"></div>
+                <div class="col-md-6">
+                    <label class="form-label">Nombre *</label>
+                    <input type="text" name="nombre" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Apellidos *</label>
+                    <input type="text" name="apellidos" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Telefono</label>
+                    <input type="text" name="telefono" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Correo institucional</label>
+                    <input type="email" name="correo_institucional" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Correo personal</label>
+                    <input type="email" name="correo_personal" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Direccion de residencia</label>
+                    <input type="text" name="direccion_residencia" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Ficha</label>
+                    <select name="ficha_id" class="form-select">
+                        <option value="">Sin ficha</option>
+                        {% for f in fichas %}<option value="{{ f.id }}">{{ f.numero_ficha }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Programa</label>
+                    <select name="programa_id" class="form-select">
+                        <option value="">Sin programa</option>
+                        {% for p in programas %}<option value="{{ p.id }}">{{ p.nombre_programa }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Firma (subir imagen PNG/JPG)</label>
+                    <input type="file" name="firma_archivo" class="form-control" accept="image/png,image/jpeg">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">O dibuje la firma</label>
+                    <div class="border rounded p-2">
+                        <canvas id="firmaCanvas" width="400" height="120" class="border w-100" style="touch-action:none;"></canvas>
+                        <div class="mt-2">
+                            <button type="button" id="limpiarFirma" class="btn btn-sm btn-outline-secondary">Limpiar</button>
+                        </div>
+                        <input type="hidden" name="firma" id="firmaData">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-sena"><i class="bi bi-save"></i> Guardar</button>
+                <a href="{{ url_for('usuarios.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/firma.js') }}"></script>
+{% endblock %}

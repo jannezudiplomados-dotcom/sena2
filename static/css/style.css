@@ -1,0 +1,37 @@
+:root {
+    --sena-green: #39A900;
+    --sena-green-dark: #2e8600;
+}
+
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.sena-navbar {
+    background-color: var(--sena-green);
+}
+
+.sena-text { color: var(--sena-green); }
+
+.btn-sena {
+    background-color: var(--sena-green);
+    border-color: var(--sena-green);
+    color: #fff;
+}
+.btn-sena:hover {
+    background-color: var(--sena-green-dark);
+    border-color: var(--sena-green-dark);
+    color: #fff;
+}
+
+.stat-card {
+    transition: transform .15s ease-in-out;
+}
+.stat-card:hover { transform: translateY(-3px); }
+
+.card { border-radius: .6rem; }
+
+.navbar-brand i { margin-right: .3rem; }
+
+footer { margin-top: 3rem; }

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}Documentos — {{ app_name }}{% endblock %}
+{% block content %}
+<h3 class="mb-3">Documentos y plantillas</h3>
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white fw-bold">Subir plantilla</div>
+            <div class="card-body">
+                <form action="{{ url_for('documentos.subir_plantilla') }}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-2">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" placeholder="Ej: Formato de matricula">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Descripcion</label>
+                        <input type="text" name="descripcion" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Archivo (.docx, .xlsx, .xls)</label>
+                        <input type="file" name="archivo" class="form-control" accept=".docx,.xlsx,.xls" required>
+                    </div>
+                    <button type="submit" class="btn btn-sena w-100"><i class="bi bi-upload"></i> Subir</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white fw-bold">Generar documentos por grupo</div>
+            <div class="card-body">
+                <form action="{{ url_for('documentos.generar') }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-2">
+                        <label class="form-label">Plantilla</label>
+                        <select name="plantilla_id" class="form-select" required>
+                            <option value="">Seleccione...</option>
+                            {% for pl in plantillas %}<option value="{{ pl.id }}">{{ pl.nombre }}</option>{% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Generar por</label>
+                        <select name="tipo" class="form-select" required>
+                            <option value="ficha">Ficha</option>
+                            <option value="programa">Programa</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Grupo</label>
+                        <select name="grupo_id" class="form-select" required>
+                            <optgroup label="Fichas">
+                                {% for f in fichas %}<option value="{{ f.id }}">Ficha {{ f.numero_ficha }}</option>{% endfor %}
+                            </optgroup>
+                            <optgroup label="Programas">
+                                {% for p in programas %}<option value="{{ p.id }}">{{ p.nombre_programa }}</option>{% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Formato</label>
+                        <select name="formato" class="form-select">
+                            <option value="original">Original (DOCX/Excel)</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-sena w-100"><i class="bi bi-file-earmark-zip"></i> Generar ZIP</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white fw-bold">Plantillas cargadas</div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr><th>Nombre</th><th>Archivo</th><th class="text-end">Acciones</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for pl in plantillas %}
+                            <tr>
+                                <td class="fw-semibold">{{ pl.nombre }}</td>
+                                <td class="text-muted small">{{ pl.archivo }}</td>
+                                <td class="text-end">
+                                    <form action="{{ url_for('documentos.eliminar_plantilla', id=pl.id) }}" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar la plantilla {{ pl.nombre }}?');">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr><td colspan="3" class="text-center text-muted py-4">No hay plantillas cargadas.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

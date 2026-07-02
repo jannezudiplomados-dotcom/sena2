@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Panel — {{ app_name }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-0">Panel de control</h3>
+        <p class="text-muted mb-0">Resumen general del sistema</p>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card border-0 shadow-sm h-100"><div class="card-body">
+            <i class="bi bi-people-fill sena-text fs-2"></i>
+            <h2 class="mt-2 mb-0">{{ stats.total_usuarios }}</h2>
+            <span class="text-muted">Aprendices</span>
+        </div></div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card border-0 shadow-sm h-100"><div class="card-body">
+            <i class="bi bi-collection-fill sena-text fs-2"></i>
+            <h2 class="mt-2 mb-0">{{ stats.total_fichas }}</h2>
+            <span class="text-muted">Fichas</span>
+        </div></div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card border-0 shadow-sm h-100"><div class="card-body">
+            <i class="bi bi-journal-text sena-text fs-2"></i>
+            <h2 class="mt-2 mb-0">{{ stats.total_programas }}</h2>
+            <span class="text-muted">Programas</span>
+        </div></div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card border-0 shadow-sm h-100"><div class="card-body">
+            <i class="bi bi-check-circle-fill sena-text fs-2"></i>
+            <h2 class="mt-2 mb-0">{{ stats.fichas_activas }}</h2>
+            <span class="text-muted">Fichas activas</span>
+        </div></div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white fw-bold">Ultimos aprendices registrados</div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr><th>Identificacion</th><th>Nombre</th><th>Ficha</th><th>Programa</th></tr>
+                </thead>
+                <tbody>
+                    {% for u in stats.ultimos_usuarios %}
+                    <tr>
+                        <td>{{ u.identificacion }}</td>
+                        <td>{{ u.nombre }} {{ u.apellidos }}</td>
+                        <td>{{ u.numero_ficha or '—' }}</td>
+                        <td>{{ u.nombre_programa or '—' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4" class="text-center text-muted py-3">Sin registros</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
